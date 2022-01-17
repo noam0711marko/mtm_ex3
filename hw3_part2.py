@@ -21,14 +21,27 @@ def get_palindromic_dict(str):
     return res
 
 
-def character_range(char1, char2):
-    for char in range(ord(char1), ord(char2) + 1):
-        yield char
+def check_similar(str1, str2):
+    if len(str1) != len(str2):
+        return False
+    hist = {}
+    for letter in range(26):
+        hist[letter] = chr(ord('a') + letter)
+    for counter in range(len(str1)):
+        if str1[counter] == hist[ord(str1[counter]) - ord('a')]:
+            if str2[counter] != str1[counter]:
+                hist[ord(str1[counter]) - ord('a')] = str2[counter]
+            else:
+                hist[ord(str1[counter]) - ord('a')]=0
+        else:
+            if str2[counter] != hist[ord(str1[counter]) - ord('a')]:
+                return False
+    return True
 
 
 def check_match(str):
-    hist1 = {}
-    hist2 = {}
-    for letter in character_range('a', 'z'):
-        hist1[letter] = -1
-        hist2[letter] = -1
+    even = str[1:len(str):2]
+    odd = str[0:len(str):2]
+    if check_similar(even, odd) and check_similar(odd, even):
+        return True
+    return False
