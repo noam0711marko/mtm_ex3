@@ -81,4 +81,5 @@ def find_k_most_expensive_products(file_name, k):
         expensive.append((curr_key, val[0]))
         if len(expensive) > k:
             expensive = sorted(expensive, key=lambda x: x[1], reverse=True)
-
+            del expensive[len(expensive)-1]
+    return expensive
