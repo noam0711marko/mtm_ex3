@@ -1,7 +1,7 @@
 def add_product(line, matamikya):
     name = line[1]
-    price = int(line[2])
-    amount = int(line[3])
+    price = float(line[2])
+    amount = float(line[3])
     if name in matamikya or price < 0 or amount < 0:
         return matamikya
     matamikya[name] = [price, amount, 0]
@@ -10,7 +10,7 @@ def add_product(line, matamikya):
 
 def change_amount(line, matamikya):
     name = line[1]
-    amount_to_add = int(line[2])
+    amount_to_add = float(line[2])
     if name not in matamikya:
         return matamikya
     matamikya[name][1] += amount_to_add
@@ -21,7 +21,7 @@ def ship_order(line, matamikya):
     index = 0
     while index < len(line):
         name = line[index + 1]
-        amount = int(line[index + 2])
+        amount = float(line[index + 2])
         if name not in matamikya or amount > matamikya[name][1]:
             index += 3
             continue
@@ -73,10 +73,9 @@ def find_k_most_expensive_products(file_name, k):
     expensive = []
     for curr_key, val in matamikya.items():
         expensive.append((curr_key, val[0]))
+        expensive = sorted(expensive, key=lambda x: x[1], reverse=True)
         if len(expensive) > k:
-            expensive = sorted(expensive, key=lambda x: x[1], reverse=True)
             del expensive[len(expensive)-1]
-
     for i in range(len(expensive)):
         expensive[i] = expensive[i][0]
     return expensive

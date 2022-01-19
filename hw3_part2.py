@@ -9,7 +9,7 @@ def check_palindrom(str, k):
     return check_palindrom(str[1: k - 1], k - 2)
 
 
-def get_palindromic_dict(str):
+def get_palindrom_dict(str):
     res = {}
     for k in range(len(str)):
         palindroms = []
@@ -32,7 +32,7 @@ def check_similar(str1, str2):
             if str2[counter] != str1[counter]:
                 hist[ord(str1[counter]) - ord('a')] = str2[counter]
             else:
-                hist[ord(str1[counter]) - ord('a')]=0
+                hist[ord(str1[counter]) - ord('a')] = 0
         else:
             if str2[counter] != hist[ord(str1[counter]) - ord('a')]:
                 return False
@@ -42,6 +42,6 @@ def check_similar(str1, str2):
 def check_match(str):
     even = str[1:len(str):2]
     odd = str[0:len(str):2]
-    if check_similar(even, odd) and check_similar(odd, even):
+    if check_similar(odd, even):
         return True
     return False
