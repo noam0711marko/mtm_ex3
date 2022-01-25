@@ -22,7 +22,7 @@ def ship_order(line, matamikya):
     while index < len(line):
         name = line[index + 1]
         amount = float(line[index + 2])
-        if name not in matamikya or amount > matamikya[name][1]:
+        if name not in matamikya or amount > matamikya[name][1] or amount < 0:
             index += 3
             continue
         matamikya[name][1] -= amount
@@ -55,14 +55,23 @@ def file_to_matamikya(file_name):
             matamikya = change_amount(line, matamikya)
         elif line[0] == "ship":
             matamikya = ship_order(line, matamikya)
-    matamikya = dict(sorted(matamikya.items(), key=lambda x: x[0]))
     return matamikya
+
+
+def matamikya_key_list(matamikya):
+    keys = []
+    for k in matamikya.keys():
+        keys.append(k)
+    keys.sort()
+    return keys
 
 
 def find_best_selling_product(file_name):
     matamikya = file_to_matamikya(file_name)
+    keys = matamikya_key_list(matamikya)
     current_best = ("", 0)
-    for k, v in matamikya.items():
+    for k in keys:
+        v = matamikya[k]
         if v[2] > current_best[1]:
             current_best = (k, v[2])
     return current_best
@@ -71,9 +80,11 @@ def find_best_selling_product(file_name):
 def find_k_most_expensive_products(file_name, k):
     matamikya = file_to_matamikya(file_name)
     expensive = []
-    for curr_key, val in matamikya.items():
+    keys = matamikya_key_list(matamikya)
+    for curr_key in keys:
+        val = matamikya[curr_key]
         expensive.append((curr_key, val[0]))
-        expensive = sorted(expensive, key=lambda x: x[1], reverse=True)
+        expensive.sort(key=lambda x: x[1], reverse=True)
         if len(expensive) > k:
             del expensive[len(expensive)-1]
     for i in range(len(expensive)):

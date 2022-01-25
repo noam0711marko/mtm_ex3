@@ -24,17 +24,9 @@ def get_palindrom_dict(str):
 def check_similar(str1, str2):
     if len(str1) != len(str2):
         return False
-    hist = {}
-    for letter in range(26):
-        hist[letter] = chr(ord('a') + letter)
-    for counter in range(len(str1)):
-        if str1[counter] == hist[ord(str1[counter]) - ord('a')]:
-            if str2[counter] != str1[counter]:
-                hist[ord(str1[counter]) - ord('a')] = str2[counter]
-            else:
-                hist[ord(str1[counter]) - ord('a')] = 0
-        else:
-            if str2[counter] != hist[ord(str1[counter]) - ord('a')]:
+    for i in range(len(str1)):
+        if i != str1.find(str1[i]):
+            if str2[i] != str2[str1.find(str1[i])]:
                 return False
     return True
 
